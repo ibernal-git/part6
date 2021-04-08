@@ -6,14 +6,19 @@ import { notificationNewVote, notificationHide } from '../reducers/notificationR
 const AnecdoteList = () => {
   const dispatch = useDispatch()
   const filter = useSelector(({ filter }) => filter)
-  const anecdotes = useSelector(({ anecdotes }) => {
-    return anecdotes
+  console.log(filter)
+  const anecdotes = useSelector(({ anecdotes }) =>
+    anecdotes
       .sort((a, b) => b.votes - a.votes)
-      .filter(anecdote => anecdote.content.toLowerCase().includes(filter.toLowerCase()))
-  })
+      .filter(({ content }) =>
+        content === undefined
+          ? content
+          : content.toLowerCase().includes(filter.toLowerCase())
+      )
+  )
 
   const vote = (anecdote) => {
-    dispatch(voteAnecdote(anecdote.id))
+    dispatch(voteAnecdote(anecdote))
     dispatch(notificationNewVote(anecdote.content))
     setTimeout(() => {
       dispatch(notificationHide())
