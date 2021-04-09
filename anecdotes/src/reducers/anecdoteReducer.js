@@ -3,9 +3,9 @@ import anecdoteService from '../services/anecdotes'
 const anecdoteReducer = (state = [], action) => {
   switch (action.type) {
     case 'NEW_VOTE': {
-      const id = action.data.updatedAnecdote.id
+      const id = action.data.id
       return state.map(anecdote =>
-        anecdote.id !== id ? anecdote : action.data.updatedAnecdote
+        anecdote.id !== id ? anecdote : action.data
       )
     }
     case 'NEW_ANECDOTE': {
@@ -26,7 +26,7 @@ export const voteAnecdote = (data) => {
     const updatedAnecdote = await anecdoteService.addVote(anecdote)
     dispatch({
       type: 'NEW_VOTE',
-      data: { updatedAnecdote }
+      data: updatedAnecdote
     })
   }
 }
